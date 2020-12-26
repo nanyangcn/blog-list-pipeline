@@ -35,6 +35,12 @@ app.use(express.static('dist'))
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('tiny'))
 }
+
+
+app.get('/health', (req, res) => {
+  res.send('ok')
+})
+
 app.use(middleware.tokenExtractor)
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
