@@ -1,4 +1,4 @@
-name: API CI pipeline
+name: CI pipeline
 
 on:
   push:
@@ -33,7 +33,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           command: yarn test:e2e
-          start: yarn start-prod
+          start: yarn start:test
           wait-on: http://localhost:3001
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
