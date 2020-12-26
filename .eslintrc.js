@@ -1,14 +1,27 @@
 module.exports = {
   'env': {
+    browser: true,
     'commonjs': true,
     'es2021': true,
     'node': true,
-    'jest': true
+    'jest': true,
+    'jest/globals': true,
+    'cypress/globals': true,
   },
-  'extends': 'eslint:recommended',
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:security/recommended',
+  ],
   'parserOptions': {
-    'ecmaVersion': 12
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 2018,
+    sourceType: 'module',
   },
+  plugins: ['react', 'jest', 'cypress', 'react-hooks', 'security'],
   'rules': {
     'indent': [
       'error',
@@ -36,6 +49,15 @@ module.exports = {
         'before': true,
         'after': true
       }
-    ]
+    ],
+    'no-console': 0,
+    'react/prop-types': 0,
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': [
+      'warn',
+      {
+        additionalHooks: '(useMyCustomHook|useMyOtherCustomHook)',
+      },
+    ],
   }
 }

@@ -1,0 +1,42 @@
+name: CI pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
+    
+jobs:
+  simple_deployment_pipeline:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: yarn install 
+        run: yarn install  
+      - name: lint
+        run: yarn eslint
+      - name: build
+        run: yarn build
+      - name: test
+        run: yarn test
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          SECRET: ${{ secrets.SECRET }}
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          PORT: 3001
+      - name: e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          command: yarn test:e2e
+          start: yarn start:test
+          wait-on: http://localhost:3001
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          SECRET: ${{ secrets.SECRET }}
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          PORT: 3001
