@@ -42,7 +42,7 @@ const BlogForm = ({ handleCreateBlog, createBlogRef }) => {
                 <TableCell component='th' scope='row'>
                   {blog.author}
                 </TableCell>
-                <TableCell>{blog.likes}</TableCell>
+                <TableCell className='likes'>{blog.likes}</TableCell>
               </TableRow>
             ))}
           </TableBody>

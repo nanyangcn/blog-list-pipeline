@@ -11,10 +11,9 @@ describe('blog list app', function () {
   })
 
   it('Login form is shown', function () {
-    cy.contains('Blog list')
     cy.contains('Log in to application')
-    cy.contains('username:')
-    cy.contains('password:')
+    cy.contains('username')
+    cy.contains('password')
     cy.contains('login')
   })
 
@@ -24,7 +23,7 @@ describe('blog list app', function () {
       cy.get('#password').type('password')
       cy.get('#loginButton').click()
 
-      cy.contains('User logged in')
+      cy.contains('Logout')
     })
 
     it('fails with wrong credentials', function () {
@@ -32,9 +31,7 @@ describe('blog list app', function () {
       cy.get('#password').type('wrong')
       cy.get('#loginButton').click()
 
-      cy.get('.error').contains('Invalid username or password.')
-      cy.get('.error').should('have.css', 'color', 'rgb(255, 0, 0)')
-      cy.get('.error').should('have.css', 'border-style', 'solid')
+      cy.contains('Invalid username or password.')
     })
   })
 
@@ -57,23 +54,23 @@ describe('blog list app', function () {
     beforeEach(function () {
       cy.login({ username: 'username', password: 'password' })
       cy.createBlog({
-        title: 'Title',
+        title: 'Title1',
         author: 'Author',
         url: 'url',
         likes: 0,
       })
-      cy.get('#viewButton').click()
+      cy.contains('Title1').click()
     })
 
     it('User can like blog', function () {
-      cy.contains('Likes: 0')
+      cy.contains('0 likes')
       cy.get('#likeButton').click()
-      cy.contains('Likes: 1')
+      cy.contains('1 likes')
     })
 
     it('User can remove a blog created by themselves', function () {
       cy.get('#removeButton').click()
-      cy.get('.message').contains('blog deleted')
+      cy.contains('blog deleted')
       cy.should('not.contain', 'Title Author')
     })
 
@@ -89,7 +86,6 @@ describe('blog list app', function () {
       cy.get('#password').type('password1')
       cy.get('#loginButton').click()
 
-      cy.get('#viewButton').click()
       cy.contains('url')
       cy.should('not.contain', 'remove')
     })
