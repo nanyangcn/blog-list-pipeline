@@ -16,10 +16,12 @@ This is a app for blog list management.
 
 `yarn start-prod`
 
+The front-end runs at `localhost:3000`.
+
 ## start in development mode
 
 `yarn start`
-
+The app runs at `localhost:3001`.
 
 ## login
 
